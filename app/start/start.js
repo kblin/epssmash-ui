@@ -8,7 +8,7 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
             vm.valid_endings = '.gbk,.gb,.gbff,.emb,.embl,.fa,.fasta,.fna';
             vm.valid_gff_endings = '.gff,.gff3';
 
-            vm.run_beta = true;
+            vm.run_beta = false;
 
             vm.upload_sideload_file = false;
 
@@ -25,7 +25,7 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
                 { id: 'clusterhmmer', description: 'Cluster Pfam analysis', default: false, stable: true, beta: true },
                 { id: 'pfam2go', description: 'Pfam-based GO term annotation', default: false, stable: true, beta: true },
                 { id: 'tigrfam', description: 'TIGRFam analysis', default: false, stable: true, beta: true },
-                { id: 'tfbs', description: 'TFBS analysis', default: true, stable: false, beta: true },
+                { id: 'tfbs', description: 'TFBS analysis', default: true, stable: true, beta: true },
             ];
 
             for (var i = 0; i < vm.extra_features.length; i++) {
@@ -47,7 +47,7 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
             vm.genefinder = 'prodigal';
 
             vm.submit = function (form) {
-                vm.submission.jobtype = vm.run_beta ? 'antismash7' : 'antismash6';
+                vm.submission.jobtype = vm.run_beta ? 'antismash7' : 'antismash7';
                 vm.active_submission = true;
                 vm.errror_message = null;
 
