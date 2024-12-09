@@ -49,7 +49,7 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
             vm.genefinder = 'prodigal';
 
             vm.submit = function (form) {
-                vm.submission.jobtype = vm.run_beta ? 'antismash7' : 'antismash7';
+                vm.submission.jobtype = vm.run_beta ? 'antismash8' : 'antismash7';
                 vm.active_submission = true;
                 vm.errror_message = null;
 
