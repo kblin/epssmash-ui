@@ -27,14 +27,6 @@
           </div>
         </fieldset>
         <fieldset>
-          <legend>antiSMASH beta features</legend>
-          <div class="form-group row">
-            <div class="col-md-4 col-md-offset-1">
-              <label class="checkbox"><input type="checkbox" ng-model="ctrl.run_beta">Enable antiSMASH beta</label>
-            </div>
-          </div>
-        </fieldset>
-        <fieldset>
           <legend>Data input</legend>
           <div class="form-group row">
             <div class="col-md-3">
@@ -84,53 +76,6 @@
             </div>
             <label for="gff" class="col-md-5">Feature annotations (optional, GFF3 format)</label>
           </div>
-          <div class="form-group row">
-            <div class="col-md-3 col-md-offset-1">
-              <label class="checkbox"><input type="checkbox" ng-model="ctrl.upload_sideload_file">Upload extra
-                annotations</label>
-            </div>
-          </div>
-          <div class="form-group row" ng-show="ctrl.upload_sideload_file">
-            <div class="col-md-3">
-              <a href="https://docs.antismash.secondarymetabolites.org/sideloading/" target="_blank">What is this?</a>
-            </div>
-            <div class="col-md-8">
-              <div class="col-md-6">
-                <div class="input-group">
-                  <input class="form-control" type="text" placeholder="{{ctrl.sideloadNames()}}" readonly>
-                  <span class="input-group-btn">
-                    <span class="btn btn-default btn-file"> Browse
-                      <input ng-model="ctrl.sideload_files" ngf-select type="file" id="sideload-file"
-                        ngf-accept="'.json'" ngf-pattern="'.json'" ngf-multiple="true"> </span>
-                  </span>
-                </div>
-              </div>
-              <label for="sideload-file" class="col-md-6">antiSMASH annotations sideload file (JSON).</label>
-            </div>
-          </div>
-
-        </fieldset>
-
-        <fieldset>
-          <legend>Detection strictness:
-            {{ ctrl.strictness_levels[ctrl.hmmdetection_strictness].id }}
-            <span class="strictness-warning">{{ ctrl.strictness_levels[ctrl.hmmdetection_strictness].warning }}</span>
-          </legend>
-          <div class="form-group row">
-            <div class="col-md-3" id="strictness-container">
-              <div id="strictness-labels">
-                <div ng-repeat="l in ctrl.strictness_levels">{{l.id}}</div>
-              </div>
-              <div id="strictness-slider">
-                <input type="range" min="0" max="2" ng-model="ctrl.hmmdetection_strictness">
-              </div>
-            </div>
-            <div class="col-md-9">
-              <ul>
-                <li ng-repeat="d in ctrl.strictness_descriptions()">{{ d }}</li>
-              </ul>
-            </div>
-          </div>
         </fieldset>
 
         <fieldset>
@@ -157,10 +102,10 @@
           </div>
           <div class="form-group row">
             <p>
-              Please be considerate in your use of antiSMASH. Help us keep antiSMASH available for
+              Please be considerate in your use of epsSMASH. Help us keep epsSMASH available for
               everybody by limiting yourself to 5 concurrent jobs. Need to run more? See the
-              <a href="http://docs.antismash.secondarymetabolites.org/install/">antiSMASH install guide</a>
-              for instructions for getting your own antiSMASH installation.
+              <a href="http://docs.antismash.secondarymetabolites.org/install/">epsSMASH install guide</a>
+              for instructions for getting your own epsSMASH installation.
             </p>
           </div>
         </fieldset>
@@ -170,7 +115,7 @@
       <form name="existingJobForm" class="form" novalidate>
         <div class="form-group offset-top">
           <div class="row">
-            <label for="asID">antiSMASH job id for existing job</label>
+            <label for="asID">epsSMASH job id for existing job</label>
           </div>
           <div class="row">
             <div class="col-md-6">

@@ -2,13 +2,13 @@
 
 angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
     .controller('AsStartCtrl', ['$state', '$window', 'Upload',
-        function ($state, $window, Upload) {
+        function($state, $window, Upload) {
             var vm = this;
 
             vm.valid_endings = '.gbk,.gb,.gbff,.emb,.embl,.fa,.fasta,.fna';
             vm.valid_gff_endings = '.gff,.gff3';
 
-            vm.run_beta = true;
+            vm.run_beta = false;
 
             vm.upload_sideload_file = false;
             vm.sideload_files = [];
@@ -17,15 +17,9 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
             vm.submission = {};
 
             vm.extra_features = [
-                { id: 'knownclusterblast', description: 'KnownClusterBlast', default: true, stable: true, beta: true },
                 { id: 'clusterblast', description: 'ClusterBlast', default: false, stable: true, beta: true },
-                { id: 'subclusterblast', description: 'SubClusterBlast', default: true, stable: true, beta: true },
-                { id: 'cc_mibig', description: 'MIBiG cluster comparison', default: false, stable: true, beta: true },
-                { id: 'asf', description: 'ActiveSiteFinder', default: true, stable: true, beta: true },
-                { id: 'rre', description: 'RREFinder', default: true, stable: true, beta: true },
                 { id: 'clusterhmmer', description: 'Cluster Pfam analysis', default: false, stable: true, beta: true },
                 { id: 'pfam2go', description: 'Pfam-based GO term annotation', default: false, stable: true, beta: true },
-                { id: 'tigrfam', description: 'TIGRFam analysis', default: false, stable: true, beta: true },
                 { id: 'tfbs', description: 'TFBS analysis', default: true, stable: true, beta: true },
                 { id: 'ncbi_context', description: 'NCBI genomic context links', default: false, stable: true, beta: true },
             ];
@@ -48,8 +42,8 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
 
             vm.genefinder = 'prodigal';
 
-            vm.submit = function (form) {
-                vm.submission.jobtype = vm.run_beta ? 'antismash8' : 'antismash7';
+            vm.submit = function(form) {
+                vm.submission.jobtype = vm.run_beta ? 'epssmash' : 'epssmash';
                 vm.active_submission = true;
                 vm.errror_message = null;
 
@@ -88,10 +82,10 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
                 Upload.upload({
                     url: '/api/v1.0/submit',
                     data: vm.submission,
-                }).then(function (resp) {
+                }).then(function(resp) {
                     vm.active_submission = false;
                     $state.go('show.job', { id: resp.data.id });
-                }, function (resp) {
+                }, function(resp) {
                     vm.active_submission = false;
                     var full_message = "Job submission failed.";
                     if (resp.data.message) {
@@ -99,7 +93,7 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
                     }
                     vm.error_message = full_message;
                     console.log(resp);
-                }, function (evt) {
+                }, function(evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     if (!evt.config.data.seq) {
                         return;
@@ -108,12 +102,12 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
                 });
             }
 
-            vm.isFastaFile = function (filename) {
+            vm.isFastaFile = function(filename) {
                 var FASTA_ENDINGS = ['.fa', '.fna', '.fasta'];
 
                 // IE can't do endsWith()
                 if (!String.prototype.endsWith) {
-                    String.prototype.endsWith = function (search_string, position) {
+                    String.prototype.endsWith = function(search_string, position) {
                         var subject = this.toString();
                         if (typeof position !== 'number' || !isFinite(postion) || Math.floor(postion) !== postion || postion > subject.length) {
                             postion = subject.length;
@@ -133,11 +127,11 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
                 return false;
             }
 
-            vm.showGffInput = function () {
+            vm.showGffInput = function() {
                 return vm.showGeneFinder();
             }
 
-            vm.showGeneFinder = function () {
+            vm.showGeneFinder = function() {
                 if (!vm.upload_file) {
                     return false;
                 }
@@ -149,14 +143,14 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
                 return vm.isFastaFile(vm.file.name);
             }
 
-            vm.sideloadNames = function () {
+            vm.sideloadNames = function() {
                 if (vm.sideload_files.length == 0) {
                     return "";
                 }
                 return vm.sideload_files.map((f) => f.name).join(", ");
             }
 
-            vm.validJob = function () {
+            vm.validJob = function() {
                 if (vm.upload_file) {
                     if (!vm.file) {
                         return false;
@@ -169,30 +163,30 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
                 return true;
             }
 
-            vm.allOff = function () {
+            vm.allOff = function() {
                 for (var i = 0; i < vm.extra_features.length; i++) {
                     var feature = vm.extra_features[i];
                     vm.submission[feature.id] = false;
                 }
             }
 
-            vm.allOn = function () {
+            vm.allOn = function() {
                 for (var i = 0; i < vm.extra_features.length; i++) {
                     var feature = vm.extra_features[i];
                     vm.submission[feature.id] = true;
                 }
             }
 
-            vm.loadSampleInput = function () {
+            vm.loadSampleInput = function() {
                 vm.upload_file = false;
-                vm.ncbi = "Y16952";
+                vm.ncbi = "NZ_LT907842.1";
             }
 
-            vm.openSampleOutput = function () {
+            vm.openSampleOutput = function() {
                 $window.location.href = "/upload/example/index.html";
             }
 
-            vm.loadJob = function () {
+            vm.loadJob = function() {
                 console.log(vm.job_id);
                 if (vm.job_id.substr(0, 8).toLowerCase() == 'bacteria') {
                     $state.go('show.job', { id: vm.job_id });
@@ -206,11 +200,11 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
                 $state.go('show.job', { id: vm.job_id });
             }
 
-            vm.clearGff = function () {
+            vm.clearGff = function() {
                 vm.gff_file = null;
             }
 
-            vm.strictness_descriptions = function () {
+            vm.strictness_descriptions = function() {
                 var descriptions = [];
                 for (var i = 0; i <= vm.hmmdetection_strictness; i++) {
                     descriptions.push(vm.strictness_levels[i].description);
@@ -218,7 +212,7 @@ angular.module('antismash.ui.bacterial.as_start', ['ngFileUpload'])
                 return descriptions;
             }
 
-            vm.filterFeatureByStatus = function (value) {
+            vm.filterFeatureByStatus = function(value) {
                 if (value.beta && vm.run_beta) {
                     return true;
                 }
